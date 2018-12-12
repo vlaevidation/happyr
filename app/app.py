@@ -8,10 +8,11 @@ def create_app():
     def index():
         return render_template('index.html')
 
-    @app.route("/users", methods=["POST"])
+    @app.route("/signup", methods=["POST"])
     def signup():
-        print("Received signup:", request.form)
-        return ''
+        phone_number = request.form['phone_number']
+        print("Received signup for phone numer {}".format(phone_number))
+        return render_template('signed_up.html')
 
     @app.route("/message", methods=["POST"])
     def message_users():
