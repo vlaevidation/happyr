@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, request, Response, render_template
 from app.db import DB
 
 def create_app():
@@ -10,7 +10,8 @@ def create_app():
 
     @app.route("/users", methods=["POST"])
     def signup():
-        pass
+        print("Received signup:", request.form)
+        return ''
 
     @app.route("/message", methods=["POST"])
     def message_users():
