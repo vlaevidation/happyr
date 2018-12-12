@@ -1,5 +1,5 @@
 from flask import Flask
-from db import DB
+from app.db import DB
 
 def create_app():
     app = Flask(__name__, static_url_path="/static")
