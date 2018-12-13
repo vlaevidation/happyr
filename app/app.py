@@ -46,7 +46,11 @@ def create_app(env="Development"):
                 ).all()
         message = 'Hello from happyr!\nHow are you doing lately?'
         for user in users:
-            confirm_user(body=message, to=user.phone_number)
+            try:
+                confirm_user(body=message, to=user.phone_number)
+            except Exception as e:
+                print("fuckit we can't send to {}: {}".format(user.phone_number, e))
+                pass
 
         return "Messages (presumably) sent."    # this is intended to be called from curl or similar not twilio or browser so we don't need tags
 
