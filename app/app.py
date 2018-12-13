@@ -7,6 +7,8 @@ from app.models import Response as UserResponse
 from app.sms import confirm_user
 import os
 
+from app.utils import normalize_number
+
 
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
@@ -60,6 +62,7 @@ def create_app(env="Development"):
         print("Request values", request.values)
         body = request.values.get('Body', None)
         phone_number = request.values.get('From')
+        phone_number = normalize_number(phone_number)
 
         resp = MessagingResponse()
 
