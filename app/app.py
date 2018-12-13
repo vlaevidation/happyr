@@ -1,8 +1,8 @@
 from flask import Flask, request, Response, render_template
+from twilio.twiml.messaging_response import MessagingResponse
 from app.db import DB
 from app.models import User
 from app.sms import confirm_user
-import sys
 
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
@@ -16,8 +16,8 @@ def create_app(env="Development"):
     @app.route("/signup", methods=["POST"])
     def signup():
         phone_number = request.form['phone_number']
-        sys.stdout.write("Received signup for phone number {}".format(phone_number))
-        confirm_user(body='Hello from happyr!', to=phone_number)
+        print("Received signup for phone number {}".format(phone_number))
+        confirm_user(body='Hello from happyr! Please respond with CONFIRM to finish your registration.', to=phone_number)
 
         user = User(phone_number=phone_number)
         DB.session.add(user)
@@ -30,10 +30,20 @@ def create_app(env="Development"):
         # Send a message to all users
         pass
 
-    @app.route("/response", methods=["POST"])
+    @app.route("/response", methods=["GET", "POST"])
     def handle_response():
+        # See: https://www.twilio.com/docs/sms/tutorials/how-to-receive-and-reply-python
         # Webhook for the user texting us / twilio hits this
-        pass
+        body = request.values.get('Body', None)
+
+        resp = MessagingResponse()
+
+        if body.lower() == 'confirm':
+            # TODO: Add code to check user signed up
+            # TODO: Add code to change user confirmed field in database
+            resp.message("Thank you! Your path to happiness begins NOW!")
+
+        return str(resp)
 
     DB.init_app(app)
 
