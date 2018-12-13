@@ -43,7 +43,6 @@ def create_app(env="Development"):
         message = 'Hello from happyr!\nHow happy are you on a scale from 1-5? What else would you like to record about your current mood?'
         for user in users:
             confirm_user(body=message, to=user.phone_number)
-        pass
 
     @app.route("/response", methods=["GET", "POST"])
     def handle_response():
