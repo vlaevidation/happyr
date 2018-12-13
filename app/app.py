@@ -2,6 +2,7 @@ from flask import Flask, request, Response, render_template
 from app.db import DB
 from app.models import User
 from app.sms import confirm_user
+import sys
 
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
@@ -15,7 +16,7 @@ def create_app(env="Development"):
     @app.route("/signup", methods=["POST"])
     def signup():
         phone_number = request.form['phone_number']
-        print("Received signup for phone number {}".format(phone_number))
+        sys.stdout.write("Received signup for phone number {}".format(phone_number))
         confirm_user(body='Hello from happyr!', to=phone_number)
 
         user = User(phone_number=phone_number)
