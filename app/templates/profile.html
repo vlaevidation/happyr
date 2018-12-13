@@ -2,9 +2,18 @@
 <body>
     <h1>Happy Camper - {{ user.phone_number }}</h1>
     <h2>Recent Reports</h2>
-    <ul>
+    <table>
+        <thead>
+            <th>Happiness Level</th>
+            <th>Notes</th>
+        </thead>
+        <tbody>
         {% for i in responses %}
-            <li>{{ i.happiness }} {{ i.raw }}</li>
+        <tr>
+            <td>{{ i.happiness }}</td>
+            <td>{{ i.raw }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+    </table>
 </body>

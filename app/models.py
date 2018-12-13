@@ -31,26 +31,19 @@ class Response(DB.Model):
 def seed_test_data():
     ''' Seed test data '''
     
-    events = [
+    good_events = [
         'hot date',
         'walk on the beach',
         'bike ride',
         'my team won',
-        'my team lost',
-        'got divorced',
         'bought a new car',
-        'car was reposessed',
-        'house burned down',
         'got married',
-        'broke up with partner',
         'bought a new house',
         'ate ice cream',
         'went mountain biking',
         'went surfing',
         'brushed my teeth',
         'ate a well-marbled steak',
-        'stepped in gum',
-        'flaming turd dropped in front of house',
         "slashed my ex's tires",
         'won the lottery',
         'won a used car',
@@ -62,8 +55,22 @@ def seed_test_data():
         'drank water',
         'left my awful job',
         'watched south park',
-        'proved the existence of manbearpig'
+        'proved the existence of manbearpig',
+        "didn't have to use my AK"
     ]
+
+    bad_events = [
+        'stepped in gum',
+        'flaming turd dropped in front of house',
+        'broke up with partner',
+        'my team lost',
+        'got divorced',
+        'car was reposessed',
+        'house burned down',
+        'contracted mono'
+    ]
+
+    test_numbers = []
 
     for i in range(0, 3):
         user = User(
@@ -73,12 +80,22 @@ def seed_test_data():
         DB.session.add(user)
         DB.session.commit()
 
+        test_numbers.append(user.id)
+
         for i in range(0, 50):
+            happiness = randint(0, 5)
+            event = ''
+            if (happiness < 3):
+                event = bad_events[randint(0, len(bad_events) - 1)]
+            else:
+                event = good_events[randint(0, len(bad_events) - 1)]
+
             DB.session.add(Response(
                 user_id = user.id,
-                raw = events[randint(0, len(events) - 1)],
-                happiness=randint(0, 5)
+                raw = event,
+                happiness=happiness
             ))
 
     DB.session.commit()
+    return test_numbers
 
