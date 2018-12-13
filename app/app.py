@@ -4,6 +4,7 @@ from flask.ext.heroku import Heroku
 from app.db import DB
 from app.models import User
 from app.sms import confirm_user
+import os
 
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
