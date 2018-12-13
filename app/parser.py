@@ -31,4 +31,15 @@ def parse(message):
     return happiness
 
 
+def respond_to(score):
+    responses = {
+        1: "Wow that is, literally, the worst.",
+        2: "I'm sorry to hear that.",
+        3: "Cool cool",
+        4: "Great!",
+        5: "Holy happiness Batman that's amazing!"
+    }
+    return responses.get(score, "")
+
+
 
