@@ -6,7 +6,7 @@ from app.db import DB
 from app.models import User
 from app.models import Response as UserResponse
 from app.models import seed_test_data
-from app.sms import confirm_user
+from app.sms import send_message
 import os
 
 from app.utils import normalize_number
@@ -30,7 +30,7 @@ def create_app(env="Development"):
     def signup():
         phone_number = request.form['phone_number']
         print("Received signup for phone number {}".format(phone_number))
-        confirm_user(body='Hello from happyr! Please respond with CONFIRM to finish your registration.', to=phone_number)
+        send_message(body='Hello from happyr! Please respond with CONFIRM to finish your registration.', to=phone_number)
 
         user = User(phone_number=phone_number)
         DB.session.add(user)
@@ -47,9 +47,9 @@ def create_app(env="Development"):
         message = 'Hello from happyr!\nHow are you doing lately?'
         for user in users:
             try:
-                confirm_user(body=message, to=user.phone_number)
+                send_message(body=message, to=user.phone_number)
             except Exception as e:
-                print("fuckit we can't send to {}: {}".format(user.phone_number, e))
+                print("we can't send to {}: {}".format(user.phone_number, e))
                 pass
 
         return "Messages (presumably) sent."    # this is intended to be called from curl or similar not twilio or browser so we don't need tags
@@ -83,7 +83,6 @@ def create_app(env="Development"):
         resp = MessagingResponse()
 
         if body.lower() == 'confirm':
-            # TODO: we will need some normalization of phone numbers
             print("Looking for user with phone number {}".format(phone_number))
             user = DB.session.query(User).filter(
                 User.phone_number == phone_number,
