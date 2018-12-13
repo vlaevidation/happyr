@@ -4,7 +4,7 @@
   <div>
       <ul>
         {% for u in users %}
-            <li><a href="">{{ u.id }} - {{ u.phone_number }}</a></li>
+            <li><a href="/{{ u.id }}">{{ u.id }} - {{ u.phone_number }}</a></li>
         {% endfor %}
       </ul>
   </div>

@@ -1,6 +1,6 @@
 import os
 from app.app import create_app
-from app.db import seed_test_data
+from app.models import seed_test_data
 
 env = os.environ.get("FLASK_ENV", "Development")
 APP = create_app(env)
