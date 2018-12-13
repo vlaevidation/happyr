@@ -3,6 +3,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 from flask.ext.heroku import Heroku
 from app.db import DB
 from app.models import User
+from app.models import Response as UserResponse
 from app.sms import confirm_user
 import os
 
@@ -60,7 +61,7 @@ def create_app(env="Development"):
                 user.confirmed = True
                 DB.session.add(user)
                 DB.session.commit()
-                resp.message("Thank you!w Your path to happiness begins NOW!")
+                resp.message("Thank you! Your path to happiness begins NOW!")
                 return str(resp)
             else:
                 return ''
@@ -68,7 +69,21 @@ def create_app(env="Development"):
         else:
             # check if user confirmed
             # if so do the regular response flow: store in db, thank the user
-            pass
+            user = DB.session.query(User).filter(
+                User.phone_number == phone_number,
+                User.confirmed == True
+            ).one_or_none()
+            print("found user: {}".format(user))
+            if user:
+                response = UserResponse(
+                    user_id = user.id,
+                    raw = body.lower(),
+                    happiness = None
+                )
+                resp.message("Thank you! Your response has been recorded.")
+            else:
+                resp.message("Please sign up and confirm first.")
+            return str(resp)
 
     DB.init_app(app)
 
