@@ -98,7 +98,12 @@ def create_app(env="Development"):
             print("found user: {}".format(user))
             if user:
                 message = body.lower()
-                score = parse(message)
+                try:
+                    score = parse(message)
+                    print("Scoring message {} as happiness level {}".format(message, score))
+                except Exception as e:
+                    print("Error in parsing message: {}".format(e))
+                    score = None
 
                 response = UserResponse(
                     user_id=user.id,
