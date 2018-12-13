@@ -1,6 +1,11 @@
 from datetime import datetime
 from random import randint
+
+from sqlalchemy.orm import validates
+
 from app.db import DB
+from app.utils import normalize_number
+
 
 class User(DB.Model):
     __tablename__ = "users"
@@ -9,6 +14,10 @@ class User(DB.Model):
     phone_number = DB.Column(DB.Text, nullable=False, unique=True)
     confirmed = DB.Column(DB.Boolean, nullable=False, default=False)
     last_active = DB.Column(DB.DateTime)
+
+    @validates("phone_number")
+    def validate_phone_number(self, _, phone_number):
+        return normalize_number(phone_number)
 
 class Response(DB.Model):
     __tablename__ = "responses"
@@ -68,5 +77,6 @@ def seed_test_data():
                 raw = events[randint(0, len(events - 1))],
                 happiness=randint(0, 5)
             ))
-        
+
     DB.session.commit()
+

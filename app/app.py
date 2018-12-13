@@ -7,6 +7,8 @@ from app.models import Response as UserResponse
 from app.sms import confirm_user
 import os
 
+from app.utils import normalize_number
+
 
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
@@ -44,9 +46,8 @@ def create_app(env="Development"):
         for user in users:
             confirm_user(body=message, to=user.phone_number)
 
-        resp = MessagingResponse()
-        resp.message("OK Cool;\n <marquee>I probably just text messaged everybody</marquee>")
-        return str(resp)
+        return """OK Cool;<p> <marquee>I probably just text messaged everybody</marquee>"""
+        
 
     @app.route("/happy", methods=["GET"])
     def happy():
@@ -67,6 +68,7 @@ def create_app(env="Development"):
         print("Request values", request.values)
         body = request.values.get('Body', None)
         phone_number = request.values.get('From')
+        phone_number = normalize_number(phone_number)
 
         resp = MessagingResponse()
 
