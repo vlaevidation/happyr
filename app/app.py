@@ -1,9 +1,11 @@
-from flask import Flask, request, Response, render_template
+from flask import Flask, redirect, request, \
+    Response, render_template
 from twilio.twiml.messaging_response import MessagingResponse
 from flask.ext.heroku import Heroku
 from app.db import DB
 from app.models import User
 from app.models import Response as UserResponse
+from app.models import seed_test_data
 from app.sms import confirm_user
 import os
 
@@ -59,6 +61,11 @@ def create_app(env="Development"):
             user=User.query.get(id),
             responses=UserResponse.query.filter(UserResponse.user_id == id)
         )
+
+    @app.route("/test", methods=["GET"])
+    def seed():
+        seed_test_data()
+        return redirect("/happy")
 
     @app.route("/response", methods=["GET", "POST"])
     def handle_response():
