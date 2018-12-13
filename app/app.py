@@ -48,6 +48,10 @@ def create_app(env="Development"):
         resp.message("OK Cool;\n <marquee>I probably just text messaged everybody</marquee>")
         return str(resp)
 
+    @app.route("/happy", methods=["GET"])
+    def happy():
+        # List all users
+        return render_template('list.html', users=User.query.all())
 
     @app.route("/response", methods=["GET", "POST"])
     def handle_response():
