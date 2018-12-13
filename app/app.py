@@ -102,6 +102,8 @@ def create_app(env="Development"):
                     raw = body.lower(),
                     happiness = None
                 )
+                DB.session.add(response)
+                DB.session.commit()
                 resp.message("Thank you! Your response has been recorded.")
             else:
                 resp.message("Please sign up and confirm first.")
