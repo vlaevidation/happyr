@@ -35,7 +35,13 @@ def create_app(env="Development"):
 
     @app.route("/message", methods=["POST"])
     def message_users():
-        # Send a message to all users
+        # Note:  the .all() at the end is completely unscalable.  viva la hack day
+        users = DB.session.query(User).filter(
+                User.confirmed == True
+                ).all()
+        message = 'Hello from happyr!\nHow happy are you on a scale from 1-5? What else would you like to record about your current mood?'
+        for user in users:
+            confirm_user(body=message, to=user.phone_number)
         pass
 
     @app.route("/response", methods=["GET", "POST"])
