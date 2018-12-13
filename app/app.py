@@ -44,15 +44,31 @@ def create_app(env="Development"):
         # Webhook for the user texting us / twilio hits this
         print("Request values", request.values)
         body = request.values.get('Body', None)
+        phone_number = request.values.get('From')
 
         resp = MessagingResponse()
 
         if body.lower() == 'confirm':
-            # TODO: Add code to check user signed up
-            # TODO: Add code to change user confirmed field in database
-            resp.message("Thank you! Your path to happiness begins NOW!")
+            # TODO: we will need some normalization of phone numbers
+            user = DB.session.query(User).filter(
+                User.phone_number == phone_number,
+                User.confirmed == False
+            ).one_or_none()
+            print("query result: {}".format(user))
 
-        return str(resp)
+            if user:
+                user.confirmed = True
+                DB.session.add(user)
+                DB.session.commit()
+                resp.message("Thank you!w Your path to happiness begins NOW!")
+                return str(resp)
+            else:
+                return ''
+
+        else:
+            # check if user confirmed
+            # if so do the regular response flow: store in db, thank the user
+            pass
 
     DB.init_app(app)
 
