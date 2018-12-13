@@ -34,7 +34,7 @@ def create_app(env="Development"):
 
         return render_template('signed_up.html')
 
-    @app.route("/message", methods=["POST"])
+    @app.route("/message", methods=["GET"])
     def message_users():
         # Note:  the .all() at the end is completely unscalable.  viva la hack day
         users = DB.session.query(User).filter(
@@ -43,7 +43,11 @@ def create_app(env="Development"):
         message = 'Hello from happyr!\nHow happy are you on a scale from 1-5? What else would you like to record about your current mood?'
         for user in users:
             confirm_user(body=message, to=user.phone_number)
-        pass
+
+        resp = MessagingResponse()
+        resp.message("OK Cool;\n <marquee>I probably just text messaged everybody</marquee>")
+        return str(resp)
+
 
     @app.route("/response", methods=["GET", "POST"])
     def handle_response():
