@@ -1,13 +1,20 @@
 from flask import Flask, request, Response, render_template
 from twilio.twiml.messaging_response import MessagingResponse
+from flask.ext.heroku import Heroku
 from app.db import DB
 from app.models import User
 from app.sms import confirm_user
 
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
+    
+    heroku = Heroku(app)
+
+
     if env == "Development":
         app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///hack18"
+    else:
+        app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['DATABASE_URL']
 
     @app.route("/")
     def index():
