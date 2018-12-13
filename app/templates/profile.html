@@ -1,4 +1,37 @@
 <!DOCTYPE html>
+<head>
+    <style type="text/css">
+        td { 
+            padding: 0.25em 0.5em;
+        }
+
+        .happy-0 {
+            background: black;
+            color: white;
+        }
+    
+        .happy-1 {
+            background: red;
+        }
+
+        .happy-2 {
+            background: goldenrod;
+        }
+
+        .happy-3 {
+            background: greenyellow;
+        }
+
+        .happy-4 {
+            background: green;
+        }
+
+        .happy-5 {
+            background: blue; 
+            color: white;
+        }
+    </style>
+</head>
 <body>
     <h1>Happy Camper - {{ user.phone_number }}</h1>
     <h2>Recent Reports</h2>
@@ -9,7 +42,7 @@
         </thead>
         <tbody>
         {% for i in responses %}
-        <tr>
+        <tr class="happy-{{ i.happiness }}">
             <td>{{ i.happiness }}</td>
             <td>{{ i.raw }}</td>
         </tr>

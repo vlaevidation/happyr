@@ -1,5 +1,5 @@
 from datetime import datetime
-from random import randint
+from random import seed, randint
 
 from sqlalchemy.orm import validates
 
@@ -56,7 +56,11 @@ def seed_test_data():
         'left my awful job',
         'watched south park',
         'proved the existence of manbearpig',
-        "didn't have to use my AK"
+        "didn't have to use my AK",
+        'saved 20 percent on car insurance by switching to geico',
+        'was donated 8 million dollars from a nigerian prince',
+        'threw the winning touchdown pass in the super bowl',
+        'dunked on shaq on national tv'
     ]
 
     bad_events = [
@@ -67,8 +71,23 @@ def seed_test_data():
         'got divorced',
         'car was reposessed',
         'house burned down',
-        'contracted mono'
+        'contracted mono',
+        'lost iphone dongle',
+        'got hit by bus',
+        'got attacked by flying shark',
+        'got run over by scooter',
+        'drove my car into a lake',
+        'got possessed by a demon',
+        'landlord didn\'t tell me apartment was haunted',
+        'got exorcism for apartment',
+        'got apartment fumigated',
+        'got e-coli from romaine salad',
+        'fell off my bike and scraped my elbow',
+        'tree fell on house',
+        'ate sour grapes'
     ]
+
+    seed()
 
     test_numbers = []
 
@@ -82,7 +101,7 @@ def seed_test_data():
 
         test_numbers.append(user.id)
 
-        for i in range(0, 50):
+        for i in range(0, 100):
             happiness = randint(0, 5)
             event = ''
             if (happiness < 3):
