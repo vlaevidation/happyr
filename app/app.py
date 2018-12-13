@@ -44,7 +44,7 @@ def create_app(env="Development"):
         users = DB.session.query(User).filter(
                 User.confirmed == True
                 ).all()
-        message = 'Hello from happyr!\nHow happy are you on a scale from 1-5? What else would you like to record about your current mood?'
+        message = 'Hello from happyr!\nHow are you doing lately?'
         for user in users:
             confirm_user(body=message, to=user.phone_number)
 

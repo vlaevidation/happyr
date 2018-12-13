@@ -26,7 +26,7 @@ def parse(message):
             if tone["tone_id"] == "joy":
                 happiness += tone["score"] * 2
             elif tone["tone_id"] in ["sadness", "anger", "fear"]:
-                happiness -= tone["score"]
+                happiness -= tone["score"] * 2
 
     return happiness
 
