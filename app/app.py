@@ -46,9 +46,8 @@ def create_app(env="Development"):
         for user in users:
             confirm_user(body=message, to=user.phone_number)
 
-        resp = MessagingResponse()
-        resp.message("OK Cool;\n <marquee>I probably just text messaged everybody</marquee>")
-        return str(resp)
+        return """OK Cool;<p> <marquee>I probably just text messaged everybody</marquee>"""
+        
 
     @app.route("/happy", methods=["GET"])
     def happy():
