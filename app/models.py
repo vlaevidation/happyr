@@ -65,7 +65,7 @@ def seed_test_data():
         'proved the existence of manbearpig'
     ]
 
-    for i in range(0, 10):
+    for i in range(0, 3):
         user = User(
             phone_number=randint(10000000000, 99999999999),
             confirmed=True
