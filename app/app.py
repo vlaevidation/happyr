@@ -46,9 +46,7 @@ def create_app(env="Development"):
         for user in users:
             confirm_user(body=message, to=user.phone_number)
 
-        resp = MessagingResponse()
-        resp.message("OK Cool;\n <marquee>I probably just text messaged everybody</marquee>")
-        return str(resp)
+        return "Messages (presumably) sent."    # this is intended to be called from curl or similar not twilio or browser so we don't need tags
 
     @app.route("/happy", methods=["GET"])
     def happy():
