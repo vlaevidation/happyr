@@ -14,13 +14,8 @@ def create_app(env="Development"):
     @app.route("/signup", methods=["POST"])
     def signup():
         phone_number = request.form['phone_number']
-        print("Received signup for phone numer {}".format(phone_number))
-
-        # todo - persist signup to db - will require postgres up
-        user = User(phone_number = phone_number)
-        DB.session.add(user)
-        DB.session.commit()
-
+        print("Received signup for phone number {}".format(phone_number))
+        confirm_user(body='Hello from happyr!', to=phone_number)
         return render_template('signed_up.html')
 
     @app.route("/message", methods=["POST"])
