@@ -28,6 +28,10 @@ def parse(message):
             elif tone["tone_id"] in ["sadness", "anger", "fear"]:
                 happiness -= tone["score"] * 2
 
+    if happiness > 5:
+        happiness = 5
+    if happiness < 0:
+        happiness = 0
     return happiness
 
 
