@@ -67,14 +67,16 @@ def seed_test_data():
 
     for i in range(0, 3):
         user = User(
-            phone_number=randint(10000000000, 99999999999),
+            phone_number=str(randint(10000000000, 99999999999)),
             confirmed=True
         )
         DB.session.add(user)
+        DB.session.commit()
 
         for i in range(0, 50):
-            DB.session.add(Response(user.id,
-                raw = events[randint(0, len(events - 1))],
+            DB.session.add(Response(
+                user_id = user.id,
+                raw = events[randint(0, len(events) - 1)],
                 happiness=randint(0, 5)
             ))
 
