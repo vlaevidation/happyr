@@ -3,7 +3,7 @@
     <h1>List of Happy Campers</h1>
   <div>
       <ul>
-        {% for u in users if u.confirmed %}
+        {% for u in users %}
             <li><a href="">{{ u.id }} - {{ u.phone_number }}</a></li>
         {% endfor %}
       </ul>

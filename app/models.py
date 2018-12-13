@@ -69,4 +69,4 @@ def seed_test_data():
                 happiness=randint(0, 5)
             ))
         
-        DB.session.commit()
+    DB.session.commit()

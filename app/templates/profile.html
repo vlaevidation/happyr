@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<body>
+    <h1>Happy Camper - {{ user.phone_number }}</h1>
+    <h2>Recent Reports</h2>
+    <ul>
+        {% for i in responses %}
+            <li>{{ i.happiness }} {{ i.raw }}</li>
+        {% endfor %}
+    </ul>
+</body>
