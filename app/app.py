@@ -80,6 +80,7 @@ def create_app(env="Development"):
 
         if body.lower() == 'confirm':
             # TODO: we will need some normalization of phone numbers
+            print("Looking for user with phone number {}".format(phone_number))
             user = DB.session.query(User).filter(
                 User.phone_number == phone_number,
                 User.confirmed == False
