@@ -1,8 +1,11 @@
 from flask import Flask, request, Response, render_template
 from app.db import DB
+from app.models import User
 
-def create_app():
+def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
+    if env == "Development":
+        app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///hack18"
 
     @app.route("/")
     def index():
@@ -12,6 +15,12 @@ def create_app():
     def signup():
         phone_number = request.form['phone_number']
         print("Received signup for phone numer {}".format(phone_number))
+
+        # todo - persist signup to db - will require postgres up
+        user = User(phone_number = phone_number)
+        DB.session.add(user)
+        DB.session.commit()
+
         return render_template('signed_up.html')
 
     @app.route("/message", methods=["POST"])
