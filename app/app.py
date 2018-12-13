@@ -57,7 +57,7 @@ def create_app(env="Development"):
     def profile(id):
         return render_template('profile.html',
             user=User.query.get(id),
-            responses=User.query.filter(User.user_id == id)
+            responses=Response.query.filter(Response.user_id == id)
         )
 
     @app.route("/response", methods=["GET", "POST"])
