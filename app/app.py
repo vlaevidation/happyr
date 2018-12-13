@@ -6,11 +6,11 @@ from app.models import User
 from app.sms import confirm_user
 import os
 
+
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
-    
-    heroku = Heroku(app)
 
+    heroku = Heroku(app)
 
     if env == "Development":
         app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///hack18"
@@ -42,6 +42,7 @@ def create_app(env="Development"):
     def handle_response():
         # See: https://www.twilio.com/docs/sms/tutorials/how-to-receive-and-reply-python
         # Webhook for the user texting us / twilio hits this
+        print("Request values", request.values)
         body = request.values.get('Body', None)
 
         resp = MessagingResponse()
