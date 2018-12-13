@@ -77,5 +77,6 @@ def seed_test_data():
                 raw = events[randint(0, len(events - 1))],
                 happiness=randint(0, 5)
             ))
-        
-        DB.session.commit()
+
+    DB.session.commit()
+

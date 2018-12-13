@@ -55,6 +55,13 @@ def create_app(env="Development"):
         # List all users
         return render_template('list.html', users=User.query.all())
 
+    @app.route("/happy/<int:id>", methods=["GET"])
+    def profile(id):
+        return render_template('profile.html',
+            user=User.query.get(id),
+            responses=User.query.filter(User.user_id == id)
+        )
+
     @app.route("/response", methods=["GET", "POST"])
     def handle_response():
         # See: https://www.twilio.com/docs/sms/tutorials/how-to-receive-and-reply-python
