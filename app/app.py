@@ -10,7 +10,7 @@ from app.sms import confirm_user
 import os
 
 from app.utils import normalize_number
-from app.parser import parse
+from app.parser import parse, respond_to
 
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
@@ -124,7 +124,9 @@ def create_app(env="Development"):
                 )
                 DB.session.add(response)
                 DB.session.commit()
-                resp.message("Thank you! Your response has been recorded.")
+
+                response_text = respond_to(score)
+                resp.message("Thanks for sharing. {}\nYour response has been recorded.".format(response_text))
             else:
                 resp.message("Please sign up and confirm first.")
             return str(resp)
