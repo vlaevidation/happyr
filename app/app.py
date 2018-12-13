@@ -8,7 +8,7 @@ from app.sms import confirm_user
 import os
 
 from app.utils import normalize_number
-
+from app.parser import parse
 
 def create_app(env="Development"):
     app = Flask(__name__, static_url_path="/static")
@@ -97,11 +97,16 @@ def create_app(env="Development"):
             ).one_or_none()
             print("found user: {}".format(user))
             if user:
+                message = body.lower()
+                score = parse(message)
+
                 response = UserResponse(
-                    user_id = user.id,
-                    raw = body.lower(),
-                    happiness = None
+                    user_id=user.id,
+                    raw=body.lower(),
+                    happiness=score
                 )
+                DB.session.add(response)
+                DB.session.commit()
                 resp.message("Thank you! Your response has been recorded.")
             else:
                 resp.message("Please sign up and confirm first.")
